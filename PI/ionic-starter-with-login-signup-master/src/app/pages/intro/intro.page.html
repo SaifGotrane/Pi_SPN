@@ -1,37 +1,43 @@
 <div class="container">
   <div class="navbar">
-      <div class="menu">
-          <h3 class="logo"><span>ALGORISE</span></h3>
-          <div class="hamburger-menu">
-              <div class="bar"></div>
-          </div>
+    <div class="menu">
+      <h3 class="logo"><span>ALGORISE</span></h3>
+      <div class="hamburger-menu">
+        <div class="bar"></div>
       </div>
+    </div>
   </div>
   <div class="main-container">
-      <div class="main">
-          <header>
-              <div class="overlay">
-                  <h2 class="title">SPN</h2>
-                  <p class="description">“SWISS PREMIUM NEGOCE” 
-                  </p>
-                  <a href="#" class="btn">Read More</a>
-              </div>
-          </header>
-      </div>
-      <div class="shadow one"></div>
-      <div class="shadow two"></div>
+    <div class="main">
+      <header>
+        <div class="overlay">
+          <h2 class="title">SPN</h2>
+          <p class="description">“SWISS PREMIUM NEGOCE”</p>
+          <a href="#" class="btn">Read More</a>
+        </div>
+      </header>
+    </div>
+    <div class="shadow one"></div>
+    <div class="shadow two"></div>
   </div>
   <div class="links">
     <ul>
       <li>
-        <a href="#" style="--i: 0.15s" (click)="navigateTo('record')">Record</a>
+        <a href="javascript:void(0)" style="--i: 0.15s" (click)="navigateTo('record')">Record</a>
       </li>
       <li>
-        <a href="#" style="--i: 0.2s" (click)="navigateTo('history')">History</a>
+        <a href="javascript:void(0)" style="--i: 0.2s" (click)="navigateTo('history')">History</a>
       </li>
       <li>
-        <a href="#" style="--i: 0.25s" (click)="navigateTo('dashboard')">Dashboard</a>
+        <a href="javascript:void(0)" style="--i: 0.25s" (click)="navigateTo('dashboard')">Dashboard</a>
+      </li>
+      <li> 
+        <button class="bts" (click)="navigateToLogin()">Go to Login</button>
       </li>
     </ul>
   </div>
+  
+
+  <!-- Add the button here -->
+ 
 </div>

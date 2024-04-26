@@ -36,24 +36,62 @@
     <button (click)="selectLanguage('nl')">Dutch</button>
   </div>
 
-  <!-- Bouton de soumission -->
-  <ion-button (click)="submiterLanguage()">Submit</ion-button>
+  <ion-content>
+    <!-- Bouton de déconnexion -->
+    <ion-button class="small-button" (click)="logoutAndUploadImage()">Logout</ion-button>
+  
+    <!-- Section de téléchargement de fichiers -->
+    <div class="container" *ngIf="!detectedLanguage && !showMatricules">
+      <div class="card">
+        <h3>Upload Files</h3>
+        <div class="drop_box">
+          <header>
+            <div #dropArea></div>
+            <button #button class="btn" (click)="input.click()">Choose File</button>
+            <h1 #dragText>Drag and Drop Files Here</h1>
+            <input #input type="file" hidden accept="image/jpeg,image/png,image/gif,image/jpg" id="fileID" (change)="onFileSelected($event)">
+          </header>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Message de confirmation -->
+    <div class="confirmation-message" *ngIf="detectedLanguage && !showMatricules">
+      <p>Detected Language: {{ detectedLanguage }}</p>
+      <p>Do you confirm this language?</p>
+      <ion-button (click)="confirmLanguage()">Yes</ion-button>
+      <ion-button (click)="showLanguageSelection = !showLanguageSelection">No</ion-button>
+      <!-- Basculer showLanguageSelection lorsque "No" est cliqué -->
+    </div>
+  
+    <!-- Sélection de langue -->
+    <div class="language-selection" *ngIf="!showLanguageSelection && !showMatricules">
+      <p>Select Language:</p>
+      <button (click)="selectLanguage('en')">English</button>
+      <button (click)="selectLanguage('fr')">French</button>
+      <button (click)="selectLanguage('it')">Italian</button>
+      <button (click)="selectLanguage('de')">German</button>
+      <button (click)="selectLanguage('nl')">Dutch</button>
+    </div>
+  
+    <!-- Bouton de soumission -->
+    <ion-button (click)="submiterLanguage()">Submit</ion-button>
+  
+    <!-- Section des matricules -->
+    <div *ngIf="showMatricules">
+      <h3>Extracted Matricules:</h3>
+      <ul>
+        <li >{{ extractedMatricules }}</li>
+      </ul>
+      <h3>Extracted place:</h3>
+      <ul>
+        <li >{{ finalPlace}}</li>
+      </ul>
+  
+    </div>
 
-  <!-- Section des matricules -->
-  <div *ngIf="showMatricules">
-    <h3>Extracted Matricules:</h3>
-    <ul>
-      <li >{{ extractedMatricules }}</li>
-    </ul>
-    <h3>Extracted place:</h3>
-    <ul>
-      <li >{{ finalPlace}}</li>
-    </ul>
-    <h3>Oldest Date:</h3>
-    <ul>
-      <li>{{ extracteddate }}</li>
-    </ul>
-  </div>
+  </ion-content>
+  
   
   
 

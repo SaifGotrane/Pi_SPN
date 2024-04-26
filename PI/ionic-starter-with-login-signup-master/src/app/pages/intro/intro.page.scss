@@ -204,3 +204,12 @@ ul li.active a{ color: rgb(189,183,107); }
     transform: perspective(1300px) rotateY(20deg) translateY(10px) 
                 translateZ(340px) scale(0.5);
 }
+.bts {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }

@@ -82,9 +82,15 @@ export class IntroPage implements OnInit, OnDestroy {
     }
   }
   
+  navigateToLogin() {
+    console.log("Navigating to login page...");
+    this.navCtrl.navigateRoot('/login').then(
+      () => console.log("Navigation to login page successful"),
+      (error) => console.error("Error navigating to login page:", error)
+    );
+  }
   
   
   
   
 }
-
