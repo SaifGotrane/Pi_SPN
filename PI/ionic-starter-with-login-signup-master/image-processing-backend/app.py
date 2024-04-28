@@ -13,8 +13,14 @@ from werkzeug.utils import secure_filename
 import os
 import imutils 
 from datetime import datetime
+import pandas as pd
+import csv
+
+from flask_cors import CORS
+
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
+
 easyocr_reader = easyocr.Reader(['en', 'fr'])
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -322,7 +328,168 @@ def clean_text(text):
     # Remove leading and trailing non-alphanumeric characters from each word
     cleaned_words = [re.sub(r'^\W+|\W+$', '', word) for word in text.split()]
     return ' '.join(cleaned_words)
+
+    return response
+
+
+def clean_string(string):
+    # Supprimer tous les caractères non alphanumériques
+    return ''.join(char.lower() for char in string if char.isalnum())
+
+def compare_strings(str1, str2):
+    if isinstance(str1, float):
+        str1 = str(str1)
+    if isinstance(str2, float):
+        str2 = str(str2)
+    
+    print("Type of str1:", type(str1))
+    print("Type of str2:", type(str2))
+    # Nettoyer les deux chaînes
+    cleaned_str1 = clean_string(str1)
+    cleaned_str2 = clean_string(str2)
+    
+    # Trier les chaînes nettoyées
+    sorted_str1 = ''.join(sorted(cleaned_str1))
+    print("sorted str1",sorted_str1)
+    sorted_str2 = ''.join(sorted(cleaned_str2))
+    print("sorted str2",sorted_str1)
+    
+    # Comparer les chaînes triées
+    return sorted_str1 == sorted_str2
+
 import os
+from datetime import datetime
+import pandas as pd
+import os
+
+import os
+import pandas as pd
+from datetime import datetime
+
+@app.route('/submit_data', methods=['POST'])
+def submit_data():
+    data = request.json  # Get all data from JSON payload
+    matricule = data.get('extractedmatricule')
+    extracted_date_str = data.get('extracteddate')
+    final_place = data.get('finalPlace')
+
+    # Process the received data as needed
+    print('Matricule:', matricule)
+    print('Extracted Date:', extracted_date_str)
+    print('Final Place:', final_place)
+
+    # Convert extracted date string to datetime object
+    extracted_date = datetime.strptime(extracted_date_str, "%d/%m/%Y")
+
+    # Read the CSV file
+    current_dir = os.path.dirname(__file__)
+
+    # Construct the file path for the CSV file
+    csv_file_name = "final_data (2) (1) (1).csv"
+    csv_file_path = os.path.join(current_dir, "data", csv_file_name)
+
+    # Check if the file exists
+    if os.path.exists(csv_file_path):
+        # File exists, proceed with reading the CSV file
+        df = pd.read_csv(csv_file_path)
+        if matricule.count('-') > 0:
+            matricule = matricule.replace('-', ' ')
+        filtered_df = df[df['Car_plate_number'].apply(lambda x: compare_strings(x, matricule))]
+
+        # Check if any rows match the matricule
+        if not filtered_df.empty:
+            # Check if extracted_date is between Request_arrival_date and Request_departure_date
+            for index, row in filtered_df.iterrows():
+                arrival_date_str = row['Request_arrival_date']
+                departure_date_str = row['Request_departure_date']
+                if isinstance(arrival_date_str, str):
+                    arrival_date = datetime.strptime(arrival_date_str, "%d/%m/%Y")
+                else:
+                    arrival_date = None
+                if isinstance(departure_date_str, str):
+                    departure_date = datetime.strptime(departure_date_str, "%d/%m/%Y")
+                else:
+                    departure_date = None
+
+                # Check if extracted_date is between arrival_date and departure_date
+                if arrival_date is not None and departure_date is not None:
+                    if departure_date < arrival_date:
+                        # Swap the values
+                        arrival_date, departure_date = departure_date, arrival_date
+
+                    if arrival_date <= extracted_date <= departure_date:
+                        # Save the information from the matched rows into another CSV file (data.csv)
+                        print('Match found in CSV file:')
+                        print('Row:', row.to_dict())
+                        if row['Request_type_of_request'] == 'Rent Self Drive' or row[
+                            'Request_type_of_request'] == 'Self Drive return':
+                            reponse = {"client:": row['Request_client_name']}
+                            print(reponse)
+
+                        else:
+                            if row['Car_car_owner'] in ['SPN', 'Rented by SPN', 'SPN-RENT']:
+                                reponse = {"SPN", row['Driver_name']}
+                                print(reponse)
+                            else:
+                                reponse = {"partner:", row['Partner_partner_name']}
+                                print(reponse)  # Print row information as dictionary
+                        # Perform further processing as needed
+                        break
+                elif departure_date is not None:
+                    if departure_date == extracted_date:
+                        # Save the information from the matched rows into another CSV file (data.csv)
+                        print('Match found in CSV file (departure date only):')
+                        print('Row:', row.to_dict())
+                        if row['Request_type_of_request'] == 'Rent Self Drive' or row[
+                            'Request_type_of_request'] == 'Self Drive return':
+                            reponse = {"clien:": row['Request_client_name']}
+
+                        else:
+                            if row['Car_car_owner'] in ['SPN', 'Rented by SPN', 'SPN-RENT']:
+                                reponse = {"SPN", row['Driver_name']}
+                                print(reponse)
+                            else:
+
+                                reponse = {"partner:", row['Partner_partner_name']}
+                                print(reponse)  # Print row information as dictionary
+                        # Perform further processing as needed # Print row information as dictionary
+                        # Perform further processing as needed
+                        break
+        else:
+            print('No match found for the extracted date within the specified range.')
+    else:
+        print('No match found for the matricule.')
+    matched_data = {
+        'Request_client_name': row['Request_client_name'],
+        'Request_arrival_date': row['Request_arrival_date'],
+        'Request_departure_date': row['Request_departure_date'],
+        'Car_Type': row['Car_Type'],
+        'Car_model': row['Car_model'],
+        'Car_plate_number': row['Car_plate_number'],
+        'place': final_place,
+        'penality_date': extracted_date,
+        'responsable_penalite': reponse  # Add the responsible penalty
+    }
+
+    # Construct the file path for the other CSV file (data.csv)
+    csv_file_name = "data.csv"
+    csv_file_path = os.path.join(current_dir, "data", csv_file_name)
+
+    # Append the matched data to the other CSV file (data.csv)
+    with open(csv_file_path, 'a', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=matched_data.keys())
+        if os.path.getsize(csv_file_path) == 0:
+            writer.writeheader()
+        writer.writerow(matched_data)
+
+    # Your processing logic here...
+
+    return jsonify({'message': 'Data received successfully'})
+
+
+
+
+
 
 @app.route('/process_image_easyocr', methods=['POST'])
 def process_image_easyocr():
@@ -386,11 +553,12 @@ def process_image_easyocr():
         # Remove symbols from extracted pairs
         cleaned_matricule = remove_symbols(extracted_pairs)
         print("Cleaned Matricule:", cleaned_matricule)
-       
+        list2=global_list[:]
+        global_list.clear()
         
 
         # Return the extracted matricule and places
-        return jsonify({'global_list': global_list, 'matricule': cleaned_matricule, 'places': extracted_places}), 200
+        return jsonify({'global_list': list2, 'matricule': cleaned_matricule, 'places': extracted_places}), 200
 
     except Exception as e:
         # Handle any errors that may occur during processing
