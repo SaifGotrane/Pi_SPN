@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
-import { BehaviorSubject, from, map, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, from, map, Observable, switchMap, tap, of, delay,throwError } from 'rxjs';
 
 const TOKEN_KEY = 'auth-token';
 @Injectable({
@@ -61,4 +61,17 @@ export class AuthenticationService {
       })
     );
   }
+  loginStatic(credentials: { email: string; password: string }): Observable<any> {
+    // Vérifiez si les informations d'identification fournies correspondent à l'utilisateur statique enregistré
+    if (credentials.email === 'algorise@spn.com' && credentials.password === 'ALGORISE') {
+      // Si les informations d'identification sont correctes, simulez une réponse réussie
+      return of({ success: true, message: 'Connexion réussie' }).pipe(
+        delay(1000) // Simulation d'un délai de chargement
+      );
+    } else {
+      // Si les informations d'identification sont incorrectes, simulez une erreur
+      return throwError('Identifiants incorrects');
+    }
+  }
+  
 }

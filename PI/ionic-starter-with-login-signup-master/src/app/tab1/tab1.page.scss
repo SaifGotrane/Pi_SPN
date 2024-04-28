@@ -309,3 +309,14 @@ body {
   .back-button ion-icon {
     margin-right: 5px; /* Marge à droite de l'icône */
   }
+
+  .confirmerresultat{
+    background-color:white; /* Couleur dorée pour les boutons */
+    color:  rgb(150, 145, 73); /* Texte blanc */
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+
+  }

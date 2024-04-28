@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { Location } from '@angular/common';
 
-
 // Import easyocr
 function find_oldest_date(extracted_dates: string[]): string {
   const date_objects = extracted_dates.map(date_str => {
@@ -15,7 +14,7 @@ function find_oldest_date(extracted_dates: string[]): string {
 
   const oldest_date = new Date(Math.min(...date_objects.map(date => date.getTime()))); // Convert dates to milliseconds and then find the minimum
   const formatted_oldest_date = `${oldest_date.getDate()}/${oldest_date.getMonth() + 1}/${oldest_date.getFullYear()}`;
-  
+
   return formatted_oldest_date;
 }
 
@@ -33,7 +32,7 @@ export class Tab1Page {
   submitLanguage: string | undefined;
   extractedMatricules: string[] = [];
   finalPlace: string[] = [];
-  extracteddate:string;
+  extracteddate: string;
   showMatricules: boolean = false;
   imageData: { matricules: string, place: string, date: string }[] = [];
 
@@ -43,9 +42,8 @@ export class Tab1Page {
     private http: HttpClient,
     private cdr: ChangeDetectorRef, // Inject ChangeDetectorRef
     private location: Location // Inject Location
+  ) { }
 
-
-  ) {}
   async onFileSelected(event: any) {
     // Extract the file from the event object
     const selectedFile = event.target.files[0];
@@ -58,37 +56,35 @@ export class Tab1Page {
 
     // Call the function to process the selected file
     await this.processImage();
-}
-
-
-async processImage() {
-  if (!this.selectedFile) {
-    console.error('No file selected');
-    return;
   }
 
-  console.log('Starting image processing...');
+  async processImage() {
+    if (!this.selectedFile) {
+      console.error('No file selected');
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append('image', this.selectedFile);
+    console.log('Starting image processing...');
 
-  try {
-    console.log('Sending HTTP request...');
-    const response = await this.http.post<any>('http://localhost:5000/process_image', formData).toPromise();
-    console.log('HTTP response:', response);
+    const formData = new FormData();
+    formData.append('image', this.selectedFile);
 
-    // Update detected language after successful response
-    this.detectedLanguage = response.detected_language; // corrected property name
-    console.log('Language detected:', this.detectedLanguage);
+    try {
+      console.log('Sending HTTP request...');
+      const response = await this.http.post<any>('http://localhost:5000/process_image', formData).toPromise();
+      console.log('HTTP response:', response);
 
-    // Show the language confirmation message
-    this.showLanguageSelection = false;
-  } catch (error) {
-    console.error('Error processing image:', error);
-    return; // Stop further execution if there's an error
+      // Update detected language after successful response
+      this.detectedLanguage = response.detected_language; // corrected property name
+      console.log('Language detected:', this.detectedLanguage);
+
+      // Show the language confirmation message
+      this.showLanguageSelection = false;
+    } catch (error) {
+      console.error('Error processing image:', error);
+      return; // Stop further execution if there's an error
+    }
   }
-}
-
 
   async logoutAndUploadImage() {
     console.log('Starting logout...');
@@ -109,9 +105,7 @@ async processImage() {
     this.selectedLanguage = language; // Met à jour la langue sélectionnée dans la propriété selectedLanguage
     this.showMatricules = true; // Afficher les données extraites
   }
-  
-      
- 
+
   async submiterLanguage() {
     try {
       const submitLanguage = this.selectedLanguage !== undefined ? this.selectedLanguage : this.detectedLanguage;
@@ -138,7 +132,6 @@ async processImage() {
 
       // Mise à jour des propriétés
       this.extractedMatricules = matricule;
-      //this.extracteddate = dates;
 
       // Logique de sélection de la place finale
       const placesCount = {};
@@ -176,40 +169,50 @@ async processImage() {
       this.showMatricules = true;
       this.cdr.detectChanges();
 
-
+      // Appeler la fonction pour soumettre les données extraites
+      await this.submitExtractedData(matricule, oldestDate, finalPlace);
 
     } catch (error) {
       // Gérer les erreurs
       console.error('Error:', error);
     }
   }
+
+  async submitExtractedData(matricule: string, extractedDate: string, finalPlace: string) {
+    try {
+      const requestData = {
+        extractedmatricule: matricule,
+        extracteddate: extractedDate,
+        finalPlace: finalPlace
+      };
+      const response = await this.http.post<any>('http://localhost:5000/submit_data', requestData).toPromise();
+      console.log(response);
+
+      // Gérer la réponse ici si nécessaire
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   selectLanguageAndSubmit(language: string) {
     this.selectLanguage(language); // Appel de la fonction selectLanguage
     this.submiterLanguage(); // Appel de la fonction submiterLanguage
   }
 
+  confirmResults() {
+    console.log('Confirming results and saving to CSV...');
 
-  saveToCSV() {
-    // Créer le contenu CSV avec les données existantes et les nouvelles données
-    let updatedCSVContent = 'Matricules,Place,Date\n'; // Ajouter une nouvelle ligne pour les nouvelles données
-    this.imageData.forEach(data => {
-        updatedCSVContent += '${data.matricules},${data.place},${data.date}\n';
-    });
+    // Obtenir la matricule, la date la plus ancienne et la place finale
+    const matricule = this.extractedMatricules[0]; // Supposons que vous voulez soumettre la première matricule extraite
+    const oldestDate = this.extracteddate;
+    const finalPlace = this.finalPlace[0]; // Supposons que vous voulez soumettre la première place extraite
 
-    // Convertir le contenu mis à jour en objet Blob
-    const blob = new Blob([updatedCSVContent], { type: 'text/csv;charset=utf-8' });
+    // Appeler la fonction pour soumettre les données extraites
+    this.submitExtractedData(matricule, oldestDate, finalPlace);
+  }
 
-    // Enregistrer le fichier CSV mis à jour
-    saveAs(blob, 'upload/results.csv');
+  goBack() {
+    this.location.back(); // Utilisez this.location.back() pour effectuer un retour en arrière dans l'historique du navigateur
+  }
 }
-
-
-confirmResults() {
-  console.log('Confirming results and saving to CSV...');
-  this.saveToCSV(); // Appel de la fonction saveToCSV()
-}
-
-goBack() {
-  this.location.back(); // Utilisez this.location.back() pour effectuer un retour en arrière dans l'historique du navigateur
-}
-}  

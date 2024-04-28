@@ -23,31 +23,44 @@
 
     ngOnInit() {
       this.credentials = this.fb.group({
-        email: ['eve.holt@reqres.in', [Validators.required, Validators.email]],
-        password: ['cityslicka', [Validators.required, Validators.minLength(6)]],
+        email: ['algorise@spn.com', [Validators.required, Validators.email]],
+        password: ['ALGORISE', [Validators.required, Validators.minLength(6)]],
       });
     }
 
     async login() {
       const loading = await this.loadingController.create();
       await loading.present();
-      this.authService.login(this.credentials.value).subscribe({
+      this.authService.loginStatic(this.credentials.value).subscribe({
         next: async (res) => {
           await loading.dismiss();
-          this.router.navigateByUrl('/intro', { replaceUrl: true });
+          // Vérifiez si la connexion a réussi ou non
+          if (res.success) {
+            // Redirigez vers la page d'accueil ou toute autre page appropriée après la connexion réussie
+            this.router.navigateByUrl('/intro', { replaceUrl: true });
+          } else {
+            // Affichez un message d'erreur si la connexion a échoué
+            const alert = await this.alertController.create({
+              header: 'Erreur de connexion',
+              message: res.message,
+              buttons: ['OK'],
+            });
+            await alert.present();
+          }
         },
-        error: async (res) => {
+        error: async (err) => {
           await loading.dismiss();
+          // Affichez un message d'erreur si une erreur survient pendant la connexion
           const alert = await this.alertController.create({
-            header: 'Login failed',
-            message: res.error.error,
+            header: 'Erreur de connexion',
+            message: err,
             buttons: ['OK'],
           });
-
           await alert.present();
         },
       });
     }
+    
 
     // Getter for easy access to form fields
     get email() {

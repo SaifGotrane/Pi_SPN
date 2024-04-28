@@ -368,7 +368,7 @@ from datetime import datetime
 
 @app.route('/submit_data', methods=['POST'])
 def submit_data():
-    data = request.json  # Get all data from JSON payload
+    data = request.get_json()  # Get all data from JSON payload
     matricule = data.get('extractedmatricule')
     extracted_date_str = data.get('extracteddate')
     final_place = data.get('finalPlace')
@@ -387,6 +387,9 @@ def submit_data():
     # Construct the file path for the CSV file
     csv_file_name = "final_data (2) (1) (1).csv"
     csv_file_path = os.path.join(current_dir, "data", csv_file_name)
+
+    # Initialize variables for matched data
+    matched_data = {}
 
     # Check if the file exists
     if os.path.exists(csv_file_path):
@@ -434,6 +437,17 @@ def submit_data():
                                 reponse = {"partner:", row['Partner_partner_name']}
                                 print(reponse)  # Print row information as dictionary
                         # Perform further processing as needed
+                        matched_data = {
+                            'Request_client_name': row['Request_client_name'],
+                            'Request_arrival_date': row['Request_arrival_date'],
+                            'Request_departure_date': row['Request_departure_date'],
+                            'Car_Type': row['Car_Type'],
+                            'Car_model': row['Car_model'],
+                            'Car_plate_number': row['Car_plate_number'],
+                            'place': final_place,
+                            'penality_date': extracted_date,
+                            'responsable_penalite': reponse  # Add the responsible penalty
+                        }
                         break
                 elif departure_date is not None:
                     if departure_date == extracted_date:
@@ -449,27 +463,25 @@ def submit_data():
                                 reponse = {"SPN", row['Driver_name']}
                                 print(reponse)
                             else:
-
                                 reponse = {"partner:", row['Partner_partner_name']}
                                 print(reponse)  # Print row information as dictionary
-                        # Perform further processing as needed # Print row information as dictionary
                         # Perform further processing as needed
+                        matched_data = {
+                            'Request_client_name': row['Request_client_name'],
+                            'Request_arrival_date': row['Request_arrival_date'],
+                            'Request_departure_date': row['Request_departure_date'],
+                            'Car_Type': row['Car_Type'],
+                            'Car_model': row['Car_model'],
+                            'Car_plate_number': row['Car_plate_number'],
+                            'place': final_place,
+                            'penality_date': extracted_date,
+                            'responsable_penalite': reponse  # Add the responsible penalty
+                        }
                         break
         else:
             print('No match found for the extracted date within the specified range.')
     else:
         print('No match found for the matricule.')
-    matched_data = {
-        'Request_client_name': row['Request_client_name'],
-        'Request_arrival_date': row['Request_arrival_date'],
-        'Request_departure_date': row['Request_departure_date'],
-        'Car_Type': row['Car_Type'],
-        'Car_model': row['Car_model'],
-        'Car_plate_number': row['Car_plate_number'],
-        'place': final_place,
-        'penality_date': extracted_date,
-        'responsable_penalite': reponse  # Add the responsible penalty
-    }
 
     # Construct the file path for the other CSV file (data.csv)
     csv_file_name = "data.csv"

@@ -1,37 +1,29 @@
 <div class="container">
-
   <div class="logo-container">
-
     <img src="../../assets/Tab1/swiss_premium_negoce_logo-removebg-preview.png" alt="Logo" class="logo">
   </div>
-   <!-- Section pour afficher les données extraites dans une boîte -->
-
-
-   <button class="back-button" (click)="goBack()">
-    <ion-icon name="arrow-back"></ion-icon> <!-- Utilisation d'une icône de flèche -->
+  
+  <button class="back-button" (click)="goBack()">
+    <ion-icon name="arrow-back"></ion-icon>
     Back
   </button>
 
-<div class="extracted-data-box" *ngIf="showMatricules">
-  <div class="cardL">
-  <div class="box">
-
-    <div class="extracted-data">
-
-      <p><strong>Plate Number:</strong> {{ extractedMatricules }}</p>
-      <p><strong>Extracted Place:</strong> {{ finalPlace }}</p>
-      <p><strong>Date:</strong> {{ extracteddate }}</p>
+  <div class="extracted-data-box" *ngIf="showMatricules">
+    <div class="cardL">
+      <div class="box">
+        <div class="extracted-data">
+          <p><strong>Plate Number:</strong> {{ extractedMatricules }}</p>
+          <p><strong>Extracted Place:</strong> {{ finalPlace }}</p>
+          <p><strong>Date:</strong> {{ extracteddate }}</p>
+          <button class="confirmerresultat" (click)="confirmResults()">Confirmer le resultat</button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
-
 
   <ion-content>
-    <!-- Bouton de déconnexion -->
     <ion-button class="small-button" (click)="logoutAndUploadImage()">Logout</ion-button>
 
-    <!-- Section de téléchargement de fichiers -->
     <div class="container" *ngIf="!detectedLanguage && !showMatricules">
       <div class="card">
         <h3>Upload Files</h3>
@@ -46,36 +38,24 @@
       </div>
     </div>
 
-   <div class="container">
-  <!-- Message de confirmation -->
-  <div class="confirmation-message" *ngIf="detectedLanguage && !showLanguageSelection && !showMatricules">
-    <p>Detected Language: {{ detectedLanguage }}</p>
-    <p>Do you confirm this language?</p>
+    <div class="container">
+      <div class="confirmation-message" *ngIf="detectedLanguage && !showLanguageSelection && !showMatricules">
+        <p>Detected Language: {{ detectedLanguage }}</p>
+        <p>Do you confirm this language?</p>
+        <ion-button (click)="submiterLanguage()">Yes</ion-button>
+        <ion-button (click)="showLanguageSelection = !showLanguageSelection">No</ion-button>
+      </div>
 
-    <ion-button (click)="submiterLanguage()">Yes</ion-button>
-    <ion-button (click)="showLanguageSelection = !showLanguageSelection">No</ion-button>
-
-
-    <!-- Basculer showLanguageSelection lorsque "No" est cliqué -->
-  </div>
-
-  <!-- Sélection de langue -->
-  <div class="language-selection" *ngIf="showLanguageSelection && !showMatricules">
-    <p>Select Language:</p>
-    <div class="language-buttons">
-      <button class="language-button" (click)="selectLanguageAndSubmit('en')">English</button>
-      <button class="language-button" (click)="selectLanguageAndSubmit('fr')">French</button>
-      <button class="language-button" (click)="selectLanguageAndSubmit('it')">Italian</button>
-      <button class="language-button" (click)="selectLanguageAndSubmit('de')">German</button>
-      <button class="language-button" (click)="selectLanguageAndSubmit('nl')">Dutch</button>
-    </div>
-  </div>
-</div>
-
-    <div>
-
-
+      <div class="language-selection" *ngIf="showLanguageSelection && !showMatricules">
+        <p>Select Language:</p>
+        <div class="language-buttons">
+          <button class="language-button" (click)="selectLanguageAndSubmit('en')">English</button>
+          <button class="language-button" (click)="selectLanguageAndSubmit('fr')">French</button>
+          <button class="language-button" (click)="selectLanguageAndSubmit('it')">Italian</button>
+          <button class="language-button" (click)="selectLanguageAndSubmit('de')">German</button>
+          <button class="language-button" (click)="selectLanguageAndSubmit('nl')">Dutch</button>
+        </div>
+      </div>
     </div>
   </ion-content>
-
-  </div>
+</div>
