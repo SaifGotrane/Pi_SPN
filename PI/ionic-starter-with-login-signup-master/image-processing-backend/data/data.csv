@@ -1,6 +1,4 @@
 Request_client_name,Request_arrival_date,Request_departure_date,Car_Type,Car_model,Car_plate_number,place,penality_date,responsable_penalite
-
-
 Mr Gerald Mitchell,17/07/2023,21/07/2023,nan,Mini cooper,GE303978,geneve,2023-07-18 00:00:00,{'client:': 'Mr Gerald Mitchell'}
 Brandon Knight-Hughes,27/06/2023,26/08/2023,Mercedes C Class,nan,GE212796,geneve,2023-08-11 00:00:00,{'client:': 'Brandon Knight-Hughes'}
 Kelly O'Neill,11/03/2023,16/03/2023,Range Rover,Defender,GE 278844,geneve,2023-03-11 00:00:00,"{'client:': ""Kelly O'Neill""}"
@@ -9,4 +7,3 @@ Jean Johnson,23/10/2023,08/11/2023,Mercedes C Class,nan,GE 212796,kehl,2023-11-0
 Jean Baker,23/07/2023,05/08/2023,Mercedes V Class,V250,GE 315431,autriche,2023-08-04 00:00:00,{'client:': 'Jean Baker'}
 Mr Stephen Morgan,29/05/2023,09/06/2023,BMW X7,X7 ,GE303735,luzern,2023-06-06 00:00:00,{'client:': 'Mr Stephen Morgan'}
 Benjamin Briggs,29/06/2023,14/07/2023,Mercedes V Class,nan,GE305998,ticino,2023-07-10 00:00:00,{'client:': 'Benjamin Briggs'}
-

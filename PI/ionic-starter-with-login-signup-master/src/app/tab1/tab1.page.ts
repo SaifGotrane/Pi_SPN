@@ -4,6 +4,7 @@ import { AuthenticationService } from '../core/services/authentication.service';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { Location } from '@angular/common';
+import { IntroPage } from '../pages/intro/intro.page';
 
 // Import easyocr
 function find_oldest_date(extracted_dates: string[]): string {
@@ -213,6 +214,5 @@ export class Tab1Page {
   }
 
   goBack() {
-    this.location.back(); // Utilisez this.location.back() pour effectuer un retour en arrière dans l'historique du navigateur
-  }
+    window.location.href = 'http://localhost:4200/intro';  }
 }
