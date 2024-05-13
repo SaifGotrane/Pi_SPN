@@ -1,0 +1,350 @@
+:root {
+    --primary-color: rgb(10, 5, 26); /* Couleur bleu nuit */
+    --white-color: #ffffff;
+    --box-shadow-color: rgba(0, 0, 0, 0.12);
+    --button-hover-color: white;
+  }
+  
+  /* Base Styles */
+  
+  #table-container {
+    width: 80%;
+    margin: 0 auto;
+    color: white; /* Définir la couleur du texte en blanc */
+    border: 2px solid  rgb(150, 145, 73); /* Ajouter une bordure dorée */
+    border-collapse: collapse;
+}
+
+
+#csv-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#csv-table th, #csv-table td {
+  border: 2px solid  rgb(150, 145, 73); /* Ajouter une bordure dorée */
+  padding: px;
+  text-align: left;
+  
+}
+
+#csv-table th {
+    background-color: #f2f2f2;
+}
+
+
+  
+  /* Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  /* Base Styles */
+  body {
+    min-height: 100%;
+    background-color: rgb(150, 145, 73);
+    color: rgb(4, 3, 34);
+  }
+  
+  a {
+    color: var(--primary-color);
+    text-decoration: unset;
+  }
+  
+  /* Layout */
+  .container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    //background-image: url('../../assets/Tab1/nawsa.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* Adjust background-size and other styles according to your design needs */
+    background-color: #030315; /* Fallback background color */
+    position: center;
+    flex-direction: column;
+  
+  }
+  
+  
+  
+  /* Buttons */
+  .btn {
+    text-decoration: none;
+    background-color: var(--primary-color);
+    color:white;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    transition: 0.3s;
+  
+  }
+  
+  .btn:hover {
+    background-color: var(--white-color);
+    color: rgb(150, 145, 73);
+    outline: 1px solid var(--button-hover-color);
+  }
+  
+  .small-button {
+    width: 70px;
+    height: 30px;
+    font-size: smaller;
+    position: fixed;
+    bottom: 20px;
+    left: 5%;
+    transform: translateX(-50%);
+    z-index: 1;
+    border-radius: 8px;
+  }
+  
+  /* Form */
+  .form input {
+    margin: 10px 0;
+    width: 100%;
+    background-color: white;
+    border: none;
+    outline: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+  }
+  h3 {
+    color: white;
+  }
+  h1 {
+    color: white;
+  }
+  /* Miscellaneous */
+  /* Add other styles here */
+  
+  /* Confirmation message */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background:
+      linear-gradient(to right, white 50%, transparent 50%),
+      url('../../assets/Tab1/project.png') no-repeat,
+      center;
+    background-size: 50% 100%, cover;
+  }
+  
+  
+  /* Confirmation message */
+  .confirmation-message {
+    background: #f9f9f9;
+  
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  
+    text-align: center;
+    position: left;
+    border-radius: 10px; /* Coins arrondis */
+  
+    padding: 10px ; /* Espacement interne */
+    margin: 20px auto; /* Centrage horizontal avec un espacement autour */
+    box-shadow: 0 2px 10px rgb(189, 183, 107);
+  
+    margin-left: 30%; /* Adjust the left margin to your desired position */
+    margin-right: auto;
+    text-align: center;
+  }
+  
+  .confirmation-message p {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333; /* Couleur du texte assombrie pour une meilleure lisibilité */
+  }
+  
+  .confirmation-message ion-button {
+    background-color: rgb(150, 145, 73); /* Couleur de fond */
+    color: #fff; /* Couleur du texte */
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgb(189, 183, 107);
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  .confirmation-message ion-button:hover {
+    background-color:rgb(150, 145, 73); /* Couleur de fond au survol */
+  }
+  
+  /* Sélection de langue */
+  .language-selection {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+    box-shadow: 0 2px 10px rgb(189, 183, 107);
+  
+    margin-left: 15%; /* Adjust the left margin to your desired position */
+    margin-right: auto;
+    text-align: center;
+  
+  }
+  
+  .language-selection p {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333; /* Couleur du texte assombrie pour une meilleure lisibilité */
+  }
+  
+  .language-buttons {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .language-button {
+    background-color: rgb(150, 145, 73);; /* Couleur dorée pour les boutons */
+    color: white; /* Texte blanc */
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .language-button:hover {
+    background-color: rgb(150, 145, 73);; /* Couleur dorée légèrement plus claire au survol */
+  }
+  
+  /* Card */
+  .card {
+    border-radius: 10px;
+    width: 600px;
+    height: 260px;
+    padding: 10px 30px 40px;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgb(189, 183, 107);
+    margin-left: 10%; /* Adjust the left margin to your desired position */
+    margin-right: auto;
+    text-align: center; }
+  
+    .cardL {
+      border-radius: 10px; /* Coins arrondis */
+      width: 450px; /* Largeur fixe */
+      padding: 10px 30px 40px; /* Espacement interne */
+      margin: 20px auto; /* Centrage horizontal avec un espacement autour */
+      box-shadow: 0 2px 10px rgb(189, 183, 107);
+     // background-color: #f3f4f6; /* Couleur de fond */
+      margin-left: 10%; /* Adjust the left margin to your desired position */
+      margin-right: auto;
+      text-align: center;
+    }
+  
+  .card h3 {
+    font-size: 22px;
+    font-weight: 600;
+  }
+  
+  /* Drop box */
+  .drop_box {
+    margin: 10px 0;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 3px dotted white;
+    border-radius: 5px;
+  }
+  
+  .drop_box h4 {
+    font-size: 16px;
+    font-weight: 400;
+    color: white;
+  }
+  
+  .drop_box p {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: white;
+  }
+  .matricules-section {
+    position: absolute;
+    top: 50px; /* Ajustez la valeur en fonction de la taille de votre image */
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 1; /* Assurez-vous que la section des matricules soit au-dessus de l'image */
+  }
+  .extracted-data-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999; /* Assurez-vous qu'il est au-dessus de tout autre contenu */
+    display: flex;
+    justify-content: center;
+    margin-left: -15%; /* Adjust the left margin to your desired position */
+    margin-right: auto;
+    text-align: center;
+    
+  }
+  
+  
+  
+  .box {
+    width: 100%; /* Utilisation de la largeur complète */
+    background-color: rgb(189, 183, 107); /* Couleur de fond */
+    border-radius: 20px; /* Coins arrondis */
+    padding: 15px; /* Espacement interne */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Ombre */
+    margin-top: 20px; /* Espacement du haut */
+  }
+  
+  .extracted-data p {
+    margin-bottom: 12px; /* Espacement inférieur réduit */
+    font-size: 16px; /* Taille de la police */
+    font-weight: bold; /* Gras */
+    color: white; /* Couleur du texte en blanc */
+    text-transform: capitalize; /* Mettre la première lettre de chaque mot en majuscule */
+    text-align: left; /* Alignement du texte à gauche */
+  }
+  
+    .logo-container {
+      margin-top: 20px; /* Ajustez la marge en fonction de vos besoins */
+    }
+  
+    .logo {
+      width: 150px; /* Ajustez la taille du logo en fonction de vos besoins */
+      height: auto;
+    }
+  
+    .back-button {
+      background-color: transparent; /* Fond transparent */
+      border: none; /* Pas de bordure */
+      color: rgb(189, 183, 107); /* Couleur du texte */
+      font-size: 16px; /* Taille de la police */
+      cursor: pointer; /* Curseur pointer au survol */
+      display: flex; /* Affichage en flex pour aligner l'icône et le texte */
+      align-items: center; /* Alignement vertical */
+    }
+  
+    .back-button ion-icon {
+      margin-right: 5px; /* Marge à droite de l'icône */
+    }
+  
+    .confirmerresultat{
+      background-color:white; /* Couleur dorée pour les boutons */
+      color:  rgb(150, 145, 73); /* Texte blanc */
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin: 0 10px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    
+
+    

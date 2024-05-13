@@ -1,0 +1,54 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-image: url('../../assets/Tab3/téléchargement.jpg');
+}
+
+.half-page {
+    width: 50%;
+    padding: 20px;
+}
+
+/* Form styles */
+.half-page form .form-group {
+    margin-bottom: 20px;
+}
+
+.half-page form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.half-page form .form-group input[type="text"],
+.half-page form .form-group input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.half-page form button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(23, 25, 40);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.half-page form button[type="submit"]:hover {
+    background-color: rgb(23, 25, 40);
+}
+
+/* Additional styles for the paragraph */
+.half-page > div {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}

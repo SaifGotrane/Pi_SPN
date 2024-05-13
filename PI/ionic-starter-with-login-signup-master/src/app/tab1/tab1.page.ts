@@ -4,6 +4,8 @@ import { AuthenticationService } from '../core/services/authentication.service';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { Location } from '@angular/common';
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+
 
 // Import easyocr
 function find_oldest_date(extracted_dates: string[]): string {
@@ -210,8 +212,41 @@ export class Tab1Page {
 
     // Appeler la fonction pour soumettre les données extraites
     this.submitExtractedData(matricule, oldestDate, finalPlace);
-  }
 
+    //pdf 
+    this.generatePDF(matricule, oldestDate, finalPlace);
+  }
+  
+  async generatePDF(matricule: string, extractedDate: string, finalPlace: string) {
+    // Créer un nouveau document PDF
+    const pdfDoc = await PDFDocument.create();
+    
+    // Ajouter une nouvelle page au document PDF
+    const page = pdfDoc.addPage();
+    
+    // Définir la taille de la page (A4)
+    page.setSize(595, 842); // Largeur: 595 points, Hauteur: 842 points
+    
+    // Construire le message personnalisé avec les données extraites
+    const message = `SPN\nHello sir/madam, you have a penalty since the date ${extractedDate} when renting our car with registration\n number ${matricule} in ${finalPlace}`;
+    
+    // Ajouter le contenu du message à la page PDF
+    page.drawText(message, {
+      x: 50,
+      y: page.getHeight() - 100,
+      size: 12,
+      font: await pdfDoc.embedFont(StandardFonts.Helvetica),
+      color: rgb(0, 0, 0),
+    });
+    
+    // Enregistrer le document PDF dans un fichier
+    const pdfBytes = await pdfDoc.save();
+    
+    // Télécharger le fichier PDF
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    saveAs(blob, 'formulaire.pdf');
+  }
+  
   goBack() {
     this.location.back(); // Utilisez this.location.back() pour effectuer un retour en arrière dans l'historique du navigateur
   }

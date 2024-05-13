@@ -6,12 +6,56 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="container">
+    <!-- First Half of the Page -->
+    <div class="half-page">
+      <form (ngSubmit)="submitForm(clientForm.value)" #clientForm="ngForm" class="stacked-form">
+        <div class="form-group">
+          <label for="clientName">Client Name:</label>
+          <input type="text" class="form-control" id="clientName" name="clientName" ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="spn">Paid Money in Euro:</label>
+          <input type="text" class="form-control" id="spn" name="spn" ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="numberOfCars">Number of Cars:</label>
+          <input type="number" class="form-control" id="numberOfCars" name="numberOfCars" ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="numberOfRequests">Number of Requests:</label>
+          <input type="number" class="form-control" id="numberOfRequests" name="numberOfRequests" ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="clientId">Client ID:</label>
+          <input type="text" class="form-control" id="clientId" name="clientId" ngModel required>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!clientForm.valid">Submit</button>
+      </form>
+      
+      <div *ngIf="nawnaw">
+        <p>{{ nawnaw }}</p>
+      </div>
+    </div>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+    <!-- Second Half of the Page -->
+    <div class="half-page">
+      <form (submit)="submitnounou()" class="stacked-form">
+        <div class="form-group">
+          <label for="columnName">Client name:</label>
+        </div>
+        <div class="form-group">
+          <input type="text" id="columnName" name="columnName" [(ngModel)]="formData.columnName">
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+      
+    
+      
+      <div *ngIf="typeClient">
+        <p>{{ typeClient }}</p>
+      </div>
+    </div>
+  </div>
 </ion-content>

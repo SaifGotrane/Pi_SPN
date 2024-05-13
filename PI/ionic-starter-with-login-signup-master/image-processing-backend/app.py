@@ -15,7 +15,7 @@ import imutils
 from datetime import datetime
 import pandas as pd
 import csv
-
+import joblib
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -656,6 +656,45 @@ def process_image():
     except Exception as e:
         print(f"Error processing image: {e}")
         return jsonify({'error': 'Error processing image'}), 500
+    MODEL_DIRECTORY = os.path.join(os.getcwd(), 'data')
+
+
+file_path = os.path.join('data', 'clustering_model.pkl')
+
+
+
+# Load the clustering model
+clustering_model = joblib.load(file_path)
+
+@app.route('/api/clustering', methods=['POST', 'OPTIONS'])
+def clustering():
+    if request.method == 'OPTIONS':
+        # Handle OPTIONS request
+        response = make_response()
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Access-Control-Allow-Methods', 'POST')
+        return response
+    elif request.method == 'POST':
+        # Handle POST request
+        data = request.json
+
+        # Prepare the data for clustering
+        spn = data.get('SPN')
+        number_of_cars = data.get('Number of cars')
+        number_of_requests = data.get('nombre de request')
+        # Assuming your clustering model expects the data in a specific format
+        # You may need to adjust this based on your clustering model requirements
+        X = np.array([[spn, number_of_cars, number_of_requests]])
+        scaler = StandardScaler()
+        x_scaled = scaler.fit_transform(X)
+
+
+        # Apply the clustering model to the data
+        clustering_result = clustering_model.predict(x_scaled)
+
+        # Return the clustering result
+        return jsonify({'clustering_result': clustering_result.tolist()})
 
 if __name__ == "__main__":
     app.run(debug=True)
