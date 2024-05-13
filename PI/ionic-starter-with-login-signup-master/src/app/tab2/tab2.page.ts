@@ -8,6 +8,8 @@ import { Component } from '@angular/core';
 export class Tab2Page {
 
   constructor() {}
+  goBack() {
+    window.location.href = 'http://localhost:4200/intro';  }
 
   ngOnInit() {
     this.readCSV();

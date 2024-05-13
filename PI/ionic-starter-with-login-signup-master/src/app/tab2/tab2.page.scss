@@ -7,6 +7,7 @@
   
   /* Base Styles */
   
+<<<<<<< HEAD
   #table-container {
     width: 80%;
     margin: 0 auto;
@@ -33,6 +34,9 @@
 }
 
 
+=======
+  
+>>>>>>> e6e2d15a56cf59ee7a8fe60d0adee9340a2f46d7
   
   /* Reset */
   * {
@@ -61,7 +65,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
+<<<<<<< HEAD
     //background-image: url('../../assets/Tab1/nawsa.png');
+=======
+    background-image: url('../../assets/Tab1/nawsa.png');
+>>>>>>> e6e2d15a56cf59ee7a8fe60d0adee9340a2f46d7
     background-size: cover;
     background-repeat: no-repeat;
     /* Adjust background-size and other styles according to your design needs */
@@ -343,8 +351,13 @@
       margin: 0 10px;
       cursor: pointer;
       transition: background-color 0.3s, color 0.3s;
+<<<<<<< HEAD
     }
 
     
 
     
+=======
+  
+    }
+>>>>>>> e6e2d15a56cf59ee7a8fe60d0adee9340a2f46d7

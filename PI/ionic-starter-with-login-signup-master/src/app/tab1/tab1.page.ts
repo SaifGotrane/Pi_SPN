@@ -4,8 +4,12 @@ import { AuthenticationService } from '../core/services/authentication.service';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { Location } from '@angular/common';
+<<<<<<< HEAD
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 
+=======
+import { IntroPage } from '../pages/intro/intro.page';
+>>>>>>> e6e2d15a56cf59ee7a8fe60d0adee9340a2f46d7
 
 // Import easyocr
 function find_oldest_date(extracted_dates: string[]): string {
@@ -248,6 +252,5 @@ export class Tab1Page {
   }
   
   goBack() {
-    this.location.back(); // Utilisez this.location.back() pour effectuer un retour en arrière dans l'historique du navigateur
-  }
+    window.location.href = 'http://localhost:4200/intro';  }
 }
